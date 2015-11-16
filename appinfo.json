@@ -1,0 +1,87 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Turner Vink",
+    "longName": "Undertime",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/undyne_final.png",
+                "name": "IMAGE_UNDYNE",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/mtt_final.png",
+                "name": "IMAGE_MTT",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/papyrus_cleanup.png",
+                "name": "IMAGE_PAPYRUS",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/toriel_cleanup.png",
+                "name": "IMAGE_TORIEL",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "fonts/8bitoperator.ttf",
+                "name": "FONT_BITOP_12",
+                "type": "font"
+            },
+            {
+                "file": "fonts/8bitoperator.ttf",
+                "name": "FONT_BITOP_19",
+                "type": "font"
+            },
+            {
+                "file": "images/sans_cleanup.png",
+                "name": "IMAGE_SANS",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/undertime_basaltbg_1.png",
+                "name": "IMAGE_BATTLE",
+                "targetPlatforms": [
+                    "aplite",
+                    "basalt"
+                ],
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Undertime",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "7c46ac59-c804-41dd-8b62-d646e7520772",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
