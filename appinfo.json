@@ -9,10 +9,57 @@
     "resources": {
         "media": [
             {
+                "file": "images/undertime_background_new_bw.png",
+                "name": "IMAGE_BATTLE_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/mtt_final_bw.png",
+                "name": "IMAGE_MTT_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/papyrus_cleanup_bw.png",
+                "name": "IMAGE_PAPYRUS_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/undyne_final_bw.png",
+                "name": "IMAGE_UNDYNE_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/toriel_cleanup_bw.png",
+                "name": "IMAGE_TORIEL_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/sans_cleanup_bw.png",
+                "name": "IMAGE_SANS_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
                 "file": "images/undyne_final.png",
                 "name": "IMAGE_UNDYNE",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -21,7 +68,6 @@
                 "file": "images/mtt_final.png",
                 "name": "IMAGE_MTT",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -30,7 +76,6 @@
                 "file": "images/papyrus_cleanup.png",
                 "name": "IMAGE_PAPYRUS",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -39,7 +84,6 @@
                 "file": "images/toriel_cleanup.png",
                 "name": "IMAGE_TORIEL",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -58,7 +102,6 @@
                 "file": "images/sans_cleanup.png",
                 "name": "IMAGE_SANS",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -67,7 +110,6 @@
                 "file": "images/undertime_basaltbg_1.png",
                 "name": "IMAGE_BATTLE",
                 "targetPlatforms": [
-                    "aplite",
                     "basalt"
                 ],
                 "type": "png"
@@ -77,6 +119,7 @@
     "sdkVersion": "3",
     "shortName": "Undertime",
     "targetPlatforms": [
+        "aplite",
         "basalt"
     ],
     "uuid": "7c46ac59-c804-41dd-8b62-d646e7520772",

@@ -3,18 +3,43 @@
 static Window *main_window;
 static Layer *background_layer, *character_layer, *hpbar_layer;
 static TextLayer *time_layer, *love_layer, *hp_layer, *date_layer;
-static GBitmap *background_bitmap, *character_bitmap;
+static GBitmap *background_bitmap; 
+#ifdef PBL_PLATFORM_BASALT
+	static GBitmap *character_bitmap; 
+#elif PBL_PLATFORM_APLITE
+	static GBitmap *character_bitmap_b, *character_bitmap_w;
+#endif
 static GFont time_font, date_font;
 
 int randnum;
 
-const int CHARACTER_IMAGES[] = {
-	RESOURCE_ID_IMAGE_SANS,		// 0
-	RESOURCE_ID_IMAGE_TORIEL,	// 1
-	RESOURCE_ID_IMAGE_PAPYRUS,	// 2
-	RESOURCE_ID_IMAGE_UNDYNE,	// 3
-	RESOURCE_ID_IMAGE_MTT		// 4
-};
+#ifdef PBL_PLATFORM_BASALT
+	const int CHARACTER_IMAGES_COLOUR[] = {
+		RESOURCE_ID_IMAGE_SANS,		// 0
+		RESOURCE_ID_IMAGE_TORIEL,	// 1
+		RESOURCE_ID_IMAGE_PAPYRUS,	// 2
+		RESOURCE_ID_IMAGE_UNDYNE,	// 3
+		RESOURCE_ID_IMAGE_MTT		// 4
+	};
+#endif
+
+#ifdef PBL_PLATFORM_APLITE
+	const int CHARACTER_IMAGES_WHITE[] = {
+		RESOURCE_ID_IMAGE_SANS_BW_WHITE,		// 0
+		RESOURCE_ID_IMAGE_TORIEL_BW_WHITE,		// 1
+		RESOURCE_ID_IMAGE_PAPYRUS_BW_WHITE,		// 2
+		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE,		// 3
+		RESOURCE_ID_IMAGE_MTT_BW_WHITE			// 4
+	};
+
+	const int CHARACTER_IMAGES_BLACK[] = {
+		RESOURCE_ID_IMAGE_SANS_BW_BLACK,		// 0
+		RESOURCE_ID_IMAGE_TORIEL_BW_BLACK,		// 1
+		RESOURCE_ID_IMAGE_PAPYRUS_BW_BLACK,		// 2
+		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK,		// 3
+		RESOURCE_ID_IMAGE_MTT_BW_BLACK			// 4
+	};
+#endif
 
 static void update_time() {
 	time_t temp = time(NULL);
@@ -42,7 +67,12 @@ static void pick_character() {
 	
 	srand(temp);
 	randnum = rand() % 5;
-	character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES[randnum]);
+	#ifdef PBL_PLATFORM_BASALT
+		character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES_COLOUR[randnum]);
+	#elif PBL_PLATFORM_APLITE
+		character_bitmap_b = gbitmap_create_with_resource(CHARACTER_IMAGES_BLACK[randnum]);
+		character_bitmap_w = gbitmap_create_with_resource(CHARACTER_IMAGES_WHITE[randnum]);
+	#endif
 }
 
 static void bluetooth_handler(bool connected) {
@@ -50,13 +80,25 @@ static void bluetooth_handler(bool connected) {
 }
 
 static void draw_background(Layer *layer, GContext *ctx) {
-	graphics_context_set_compositing_mode(ctx, GCompOpSet);
-	graphics_draw_bitmap_in_rect(ctx, background_bitmap, gbitmap_get_bounds(background_bitmap));
+	#ifdef PBL_PLATFORM_BASALT
+		graphics_context_set_compositing_mode(ctx, GCompOpSet);
+		graphics_draw_bitmap_in_rect(ctx, background_bitmap, gbitmap_get_bounds(background_bitmap));
+	#elif PBL_PLATFORM_APLITE
+		graphics_draw_bitmap_in_rect(ctx, background_bitmap, gbitmap_get_bounds(background_bitmap));
+	#endif
 }
 
 static void draw_character(Layer *layer, GContext *ctx) {
-	graphics_context_set_compositing_mode(ctx, GCompOpSet);	
-	graphics_draw_bitmap_in_rect(ctx, character_bitmap, gbitmap_get_bounds(character_bitmap));
+	#ifdef PBL_PLATFORM_BASALT
+		graphics_context_set_compositing_mode(ctx, GCompOpSet);	
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap, gbitmap_get_bounds(character_bitmap));
+	#elif PBL_PLATFORM_APLITE
+		graphics_context_set_compositing_mode(ctx, GCompOpOr);
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap_w, gbitmap_get_bounds(character_bitmap_w));
+	
+		graphics_context_set_compositing_mode(ctx, GCompOpClear);
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap_b, gbitmap_get_bounds(character_bitmap_b));
+	#endif
 }
 
 static void draw_hpbar(Layer *layer, GContext *ctx) {
@@ -64,13 +106,23 @@ static void draw_hpbar(Layer *layer, GContext *ctx) {
 	
 	bool connected = bluetooth_connection_service_peek();
 		
-	if (!connected) {
-		graphics_context_set_fill_color(ctx, GColorRed);
-	} else {
-		graphics_context_set_fill_color(ctx, GColorYellow);
-	}
-	
-	graphics_fill_rect(ctx, layer_get_bounds(hpbar_layer), 0, GCornerNone);
+	#ifdef PBL_PLATFORM_BASALT
+		if (!connected) {
+			graphics_context_set_fill_color(ctx, GColorRed);
+		} else {
+			graphics_context_set_fill_color(ctx, GColorYellow);
+		}
+
+		graphics_fill_rect(ctx, layer_get_bounds(hpbar_layer), 0, GCornerNone);
+	#elif PBL_PLATFORM_APLITE
+		graphics_context_set_fill_color(ctx, GColorWhite);
+		graphics_context_set_stroke_color(ctx, GColorWhite);
+		if (!connected) {
+			graphics_draw_rect(ctx, layer_get_bounds(hpbar_layer));
+		} else {
+			graphics_fill_rect(ctx, layer_get_bounds(hpbar_layer), 0, GCornerNone);
+		}
+	#endif
 }
 
 static void main_window_load(Window *window) {
@@ -78,13 +130,21 @@ static void main_window_load(Window *window) {
 	GRect bounds = layer_get_bounds(window_get_root_layer(window));
 	
 	// Draw battle background
-	background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTLE);
+	#ifdef PBL_PLATFORM_BASALT
+		background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTLE);
+	#elif PBL_PLATFORM_APLITE
+		background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTLE_BW);
+	#endif
 	background_layer = layer_create(GRect(0, 0, 144, 168));
 	layer_set_update_proc(background_layer, draw_background);
 	
 	// Draw character
 	pick_character();
-	GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the character image
+	#ifdef PBL_PLATFORM_BASALT
+		GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the character image
+	#elif PBL_PLATFORM_APLITE
+		GRect character = gbitmap_get_bounds(character_bitmap_b);
+	#endif
 	character_layer = layer_create(GRect((bounds.size.w / 2) - (character.size.w / 2), 3, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
 	layer_set_update_proc(character_layer, draw_character);
 	
