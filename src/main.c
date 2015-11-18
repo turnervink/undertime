@@ -67,6 +67,7 @@ static void pick_character() {
 	
 	srand(temp);
 	randnum = rand() % 5;
+	APP_LOG(APP_LOG_LEVEL_INFO, "Picked character: %d", randnum);
 	#ifdef PBL_PLATFORM_BASALT
 		character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES_COLOUR[randnum]);
 	#elif PBL_PLATFORM_APLITE
@@ -76,6 +77,7 @@ static void pick_character() {
 }
 
 static void bluetooth_handler(bool connected) {
+	APP_LOG(APP_LOG_LEVEL_WARNING, "Bluetooth status changed!");
 	layer_mark_dirty(hpbar_layer);
 }
 
@@ -203,8 +205,8 @@ static void main_window_unload(Window *window) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 	update_time();
 	
-	if (tick_time->tm_min % 30 == 0) {
-		APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour");
+	if (tick_time->tm_min % 60 == 0) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character");
 		pick_character();
 	}
 }
@@ -217,8 +219,6 @@ static void init() {
 		.load = main_window_load,
 		.unload = main_window_unload
 	});
-	
-	pick_character();
 
 	window_stack_push(main_window, true);
 	tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
