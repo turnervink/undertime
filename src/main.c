@@ -12,7 +12,7 @@ static GBitmap *background_bitmap;
 static GFont time_font, date_font;
 
 int randnum; // Random number to pick character with
-int totchars = 9; // Total number of characters
+int totchars = 8; // Total number of characters
 
 #ifdef PBL_PLATFORM_BASALT // Colour character images (not really colour, just antialiased)
 	const int CHARACTER_IMAGES_COLOUR[] = {
@@ -233,6 +233,7 @@ static void main_window_unload(Window *window) {
 	#endif
 	
 	layer_destroy(background_layer);
+	layer_destroy(character_layer);
 	
 	fonts_unload_custom_font(time_font);
 	fonts_unload_custom_font(date_font);
