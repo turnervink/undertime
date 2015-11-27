@@ -12,32 +12,33 @@ static GBitmap *background_bitmap;
 static GFont time_font, date_font;
 
 int randnum; // Random number to pick character with
+int totchars = 5; // Total number of characters
 
 #ifdef PBL_PLATFORM_BASALT // Colour character images (not really colour, just antialiased)
 	const int CHARACTER_IMAGES_COLOUR[] = {
-		RESOURCE_ID_IMAGE_SANS,			// 0
-		RESOURCE_ID_IMAGE_TORIEL,		// 1
-		RESOURCE_ID_IMAGE_PAPYRUS,	// 2
-		RESOURCE_ID_IMAGE_UNDYNE,		// 3
-		RESOURCE_ID_IMAGE_MTT				// 4
+		RESOURCE_ID_IMAGE_SANS,				// 0
+		RESOURCE_ID_IMAGE_PAPYRUS,		// 1
+		RESOURCE_ID_IMAGE_MTT,				// 2
+		RESOURCE_ID_IMAGE_TORIEL,			// 3
+		RESOURCE_ID_IMAGE_UNDYNE			// 4
 	};
 #endif
 
 #ifdef PBL_PLATFORM_APLITE // Black and white character images
 	const int CHARACTER_IMAGES_WHITE[] = {
 		RESOURCE_ID_IMAGE_SANS_BW_WHITE,			// 0
-		RESOURCE_ID_IMAGE_TORIEL_BW_WHITE,		// 1
-		RESOURCE_ID_IMAGE_PAPYRUS_BW_WHITE,		// 2
-		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE,		// 3
-		RESOURCE_ID_IMAGE_MTT_BW_WHITE				// 4
+		RESOURCE_ID_IMAGE_PAPYRUS_BW_WHITE,		// 1
+		RESOURCE_ID_IMAGE_MTT_BW_WHITE,				// 2
+		RESOURCE_ID_IMAGE_TORIEL_BW_WHITE,		// 3
+		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE			// 4
 	};
 
 	const int CHARACTER_IMAGES_BLACK[] = {
 		RESOURCE_ID_IMAGE_SANS_BW_BLACK,			// 0
-		RESOURCE_ID_IMAGE_TORIEL_BW_BLACK,		// 1
-		RESOURCE_ID_IMAGE_PAPYRUS_BW_BLACK,		// 2
-		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK,		// 3
-		RESOURCE_ID_IMAGE_MTT_BW_BLACK				// 4
+		RESOURCE_ID_IMAGE_PAPYRUS_BW_BLACK,		// 1
+		RESOURCE_ID_IMAGE_MTT_BW_BLACK,				// 2
+		RESOURCE_ID_IMAGE_TORIEL_BW_BLACK,		// 3
+		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK			// 4
 	};
 #endif
 
@@ -66,7 +67,7 @@ static void pick_character() {
 	struct tm *tick_time = localtime(&temp);
 	
 	srand(temp); // Seed our random number using the current time
-	randnum = rand() % 5; // Pick a random number between 0 and the amount of available characters
+	randnum = rand() % totchars; // Pick a random number between 0 and the amount of available characters
 	APP_LOG(APP_LOG_LEVEL_INFO, "Picked character: %d", randnum);
 	
 	#ifdef PBL_PLATFORM_BASALT

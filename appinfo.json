@@ -9,36 +9,7 @@
     "resources": {
         "media": [
             {
-                "file": "fonts/DTM-Mono.otf",
-                "name": "FONT_DETERMINATION_24",
-                "type": "font"
-            },
-            {
-                "file": "images/undertime_background_new_bw.png",
-                "name": "IMAGE_BATTLE_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/mtt_final_bw.png",
-                "name": "IMAGE_MTT_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/papyrus_cleanup_bw.png",
-                "name": "IMAGE_PAPYRUS_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/undyne_final_bw.png",
+                "file": "images/undyne_pebble_bw.png",
                 "name": "IMAGE_UNDYNE_BW",
                 "targetPlatforms": [
                     "aplite"
@@ -46,7 +17,7 @@
                 "type": "png-trans"
             },
             {
-                "file": "images/toriel_cleanup_bw.png",
+                "file": "images/toriel_pebble_bw.png",
                 "name": "IMAGE_TORIEL_BW",
                 "targetPlatforms": [
                     "aplite"
@@ -54,15 +25,7 @@
                 "type": "png-trans"
             },
             {
-                "file": "images/sans_cleanup_bw.png",
-                "name": "IMAGE_SANS_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/undyne_final.png",
+                "file": "images/undyne_pebble.png",
                 "name": "IMAGE_UNDYNE",
                 "targetPlatforms": [
                     "basalt"
@@ -70,15 +33,39 @@
                 "type": "png"
             },
             {
-                "file": "images/mtt_final.png",
-                "name": "IMAGE_MTT",
+                "file": "images/toriel_pebble.png",
+                "name": "IMAGE_TORIEL",
                 "targetPlatforms": [
                     "basalt"
                 ],
                 "type": "png"
             },
             {
-                "file": "images/papyrus_cleanup.png",
+                "file": "images/mtt_pebble_bw.png",
+                "name": "IMAGE_MTT_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/papyrus_pebble_bw.png",
+                "name": "IMAGE_PAPYRUS_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/sans_pebble_bw.png",
+                "name": "IMAGE_SANS_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/papyrus_pebble.png",
                 "name": "IMAGE_PAPYRUS",
                 "targetPlatforms": [
                     "basalt"
@@ -86,10 +73,26 @@
                 "type": "png"
             },
             {
-                "file": "images/toriel_cleanup.png",
-                "name": "IMAGE_TORIEL",
+                "file": "images/mtt_pebble.png",
+                "name": "IMAGE_MTT",
                 "targetPlatforms": [
                     "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/sans_pebble.png",
+                "name": "IMAGE_SANS",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/undertime_background_new_bw.png",
+                "name": "IMAGE_BATTLE_BW",
+                "targetPlatforms": [
+                    "aplite"
                 ],
                 "type": "png"
             },
@@ -102,14 +105,6 @@
                 "file": "fonts/8bitoperator.ttf",
                 "name": "FONT_BITOP_19",
                 "type": "font"
-            },
-            {
-                "file": "images/sans_cleanup.png",
-                "name": "IMAGE_SANS",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
             },
             {
                 "file": "images/undertime_basaltbg_1.png",
