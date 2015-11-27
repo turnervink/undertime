@@ -9,6 +9,54 @@
     "resources": {
         "media": [
             {
+                "file": "images/temmie_pebble_bw.png",
+                "name": "IMAGE_TEM_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/temmie_pebble.png",
+                "name": "IMAGE_TEM",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/napsta_pebble_bw.png",
+                "name": "IMAGE_NAPSTA_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/napsta_pebble.png",
+                "name": "IMAGE_NAPSTA",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
+                "file": "images/alphys_pebble_bw.png",
+                "name": "IMAGE_ALPHYS_BW",
+                "targetPlatforms": [
+                    "aplite"
+                ],
+                "type": "png-trans"
+            },
+            {
+                "file": "images/alphys_pebble.png",
+                "name": "IMAGE_ALPHYS",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "type": "png"
+            },
+            {
                 "file": "images/undyne_pebble_bw.png",
                 "name": "IMAGE_UNDYNE_BW",
                 "targetPlatforms": [

@@ -12,7 +12,7 @@ static GBitmap *background_bitmap;
 static GFont time_font, date_font;
 
 int randnum; // Random number to pick character with
-int totchars = 5; // Total number of characters
+int totchars = 9; // Total number of characters
 
 #ifdef PBL_PLATFORM_BASALT // Colour character images (not really colour, just antialiased)
 	const int CHARACTER_IMAGES_COLOUR[] = {
@@ -20,7 +20,10 @@ int totchars = 5; // Total number of characters
 		RESOURCE_ID_IMAGE_PAPYRUS,		// 1
 		RESOURCE_ID_IMAGE_MTT,				// 2
 		RESOURCE_ID_IMAGE_TORIEL,			// 3
-		RESOURCE_ID_IMAGE_UNDYNE			// 4
+		RESOURCE_ID_IMAGE_UNDYNE,			// 4
+		RESOURCE_ID_IMAGE_ALPHYS,			// 5
+		RESOURCE_ID_IMAGE_NAPSTA,			// 6
+		RESOURCE_ID_IMAGE_TEM					// 7
 	};
 #endif
 
@@ -30,7 +33,10 @@ int totchars = 5; // Total number of characters
 		RESOURCE_ID_IMAGE_PAPYRUS_BW_WHITE,		// 1
 		RESOURCE_ID_IMAGE_MTT_BW_WHITE,				// 2
 		RESOURCE_ID_IMAGE_TORIEL_BW_WHITE,		// 3
-		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE			// 4
+		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE,		// 4
+		RESOURCE_ID_IMAGE_ALPHYS_BW_WHITE,		// 5
+		RESOURCE_ID_IMAGE_NAPSTA_BW_WHITE,		// 6
+		RESOURCE_ID_IMAGE_TEM_BW_WHITE				// 7
 	};
 
 	const int CHARACTER_IMAGES_BLACK[] = {
@@ -38,7 +44,10 @@ int totchars = 5; // Total number of characters
 		RESOURCE_ID_IMAGE_PAPYRUS_BW_BLACK,		// 1
 		RESOURCE_ID_IMAGE_MTT_BW_BLACK,				// 2
 		RESOURCE_ID_IMAGE_TORIEL_BW_BLACK,		// 3
-		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK			// 4
+		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK,		// 4
+		RESOURCE_ID_IMAGE_ALPHYS_BW_BLACK,		// 5
+		RESOURCE_ID_IMAGE_NAPSTA_BW_BLACK,		// 6
+		RESOURCE_ID_IMAGE_TEM_BW_BLACK				// 7
 	};
 #endif
 
