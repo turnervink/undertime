@@ -103,6 +103,7 @@ static void draw_background(Layer *layer, GContext *ctx) {
 
 static void draw_character(Layer *layer, GContext *ctx) {
 	#ifdef PBL_PLATFORM_BASALT
+		GRect chara = gbitmap_get_bounds(character_bitmap);
 		graphics_context_set_compositing_mode(ctx, GCompOpSet);	
 		graphics_draw_bitmap_in_rect(ctx, character_bitmap, gbitmap_get_bounds(character_bitmap));
 	#elif PBL_PLATFORM_APLITE
@@ -158,7 +159,7 @@ static void main_window_load(Window *window) {
 	#elif PBL_PLATFORM_APLITE
 		GRect character = gbitmap_get_bounds(character_bitmap_b); // Get the size of the bw character image
 	#endif
-	character_layer = layer_create(GRect((bounds.size.w / 2) - (character.size.w / 2), 3, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
+	character_layer = layer_create(GRect((bounds.size.w / 2) - (character.size.w / 2), 70 - character.size.h, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
 	layer_set_update_proc(character_layer, draw_character); // Set the update function for the character image
 	
 	// Draw HP bar
