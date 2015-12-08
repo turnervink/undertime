@@ -9,6 +9,12 @@
     "resources": {
         "media": [
             {
+                "file": "images/undertime_icon.png",
+                "menuIcon": true,
+                "name": "IMAGE_ICON",
+                "type": "png"
+            },
+            {
                 "file": "images/temmie_pebble_bw.png",
                 "name": "IMAGE_TEM_BW",
                 "targetPlatforms": [
