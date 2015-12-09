@@ -104,13 +104,13 @@ static void draw_background(Layer *layer, GContext *ctx) {
 static void draw_character(Layer *layer, GContext *ctx) {
 	#ifdef PBL_PLATFORM_BASALT
 		graphics_context_set_compositing_mode(ctx, GCompOpSet);	
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap, gbitmap_get_bounds(character_bitmap));
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap, layer_get_bounds(character_layer));
 	#elif PBL_PLATFORM_APLITE
 		graphics_context_set_compositing_mode(ctx, GCompOpOr);
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap_w, gbitmap_get_bounds(character_bitmap_w));
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap_w, layer_get_bounds(character_layer));
 	
 		graphics_context_set_compositing_mode(ctx, GCompOpClear);
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap_b, gbitmap_get_bounds(character_bitmap_b));
+		graphics_draw_bitmap_in_rect(ctx, character_bitmap_b, layer_get_bounds(character_layer));
 	#endif
 }
 
