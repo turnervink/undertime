@@ -14,6 +14,9 @@ static GFont time_font, date_font;
 int randnum; // Random number to pick character with
 int totchars = 8; // Total number of characters
 
+static bool testing = true;
+bool pickedchar = false;
+
 #ifdef PBL_PLATFORM_BASALT // Colour character images (not really colour, just antialiased)
 	const int CHARACTER_IMAGES_COLOUR[] = {
 		RESOURCE_ID_IMAGE_SANS,				// 0
@@ -79,11 +82,23 @@ static void pick_character() {
 	randnum = rand() % totchars; // Pick a random number between 0 and the amount of available characters
 	APP_LOG(APP_LOG_LEVEL_INFO, "Picked character: %d", randnum);
 	
+	if (pickedchar == true) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "Destroying old bitmap");
+		#ifdef PBL_PLATFORM_BASALT
+			gbitmap_destroy(character_bitmap);
+		#elif PBL_PLATFORM_APLITE
+			gbitmap_destroy(character_bitmap_b);
+			gbitmap_destroy(character_bitmap_w);
+		#endif
+	}
+	
 	#ifdef PBL_PLATFORM_BASALT
 		character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES_COLOUR[randnum]); // Draw the colour version of the character
+		pickedchar = true;
 	#elif PBL_PLATFORM_APLITE
 		character_bitmap_b = gbitmap_create_with_resource(CHARACTER_IMAGES_BLACK[randnum]); // Draw the black image of the character
 		character_bitmap_w = gbitmap_create_with_resource(CHARACTER_IMAGES_WHITE[randnum]); // Draw the white image of the character
+		pickedchar = true;
 	#endif
 }
 
@@ -158,7 +173,9 @@ static void main_window_load(Window *window) {
 	#elif PBL_PLATFORM_APLITE
 		GRect character = gbitmap_get_bounds(character_bitmap_b); // Get the size of the bw character image
 	#endif
-	character_layer = layer_create(GRect((bounds.size.w / 2) - (character.size.w / 2), 69 - character.size.h, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
+	
+	character_layer = layer_create(GRect((144 / 2) - (character.size.w / 2), 3, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
+	// (bounds.size.w / 2) - (character.size.w / 2), 69 - character.size.h, 70, 66
 	layer_set_update_proc(character_layer, draw_character); // Set the update function for the character image
 	
 	// Draw HP bar
@@ -242,11 +259,19 @@ static void main_window_unload(Window *window) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 	update_time();
 	
-	if (tick_time->tm_min % 60 == 0) { // Pick a new character every hour
-		APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character");
-		pick_character();
-		layer_mark_dirty(character_layer);
+	if (testing == true) {
+			APP_LOG(APP_LOG_LEVEL_INFO, "Testing mode - updating character");
+			pick_character();
+			layer_mark_dirty(character_layer);
+	} else {
+		if (tick_time->tm_min % 60 == 0) { // Pick a new character every hour
+			APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character");
+			pick_character();
+			layer_mark_dirty(character_layer);
+		}
 	}
+	
+	
 }
 
 
