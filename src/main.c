@@ -76,13 +76,12 @@ static void update_time() {
 static void pick_character() {
 	APP_LOG(APP_LOG_LEVEL_INFO, "Picking character");
 	time_t temp = time(NULL);
-	struct tm *tick_time = localtime(&temp);
 	
 	srand(temp); // Seed our random number using the current time
 	randnum = rand() % totchars; // Pick a random number between 0 and the amount of available characters
 	APP_LOG(APP_LOG_LEVEL_INFO, "Picked character: %d", randnum);
 	
-	if (pickedchar == true) {
+	if (pickedchar == true) { // If there is an old bitmap we destroy it to free memory
 		APP_LOG(APP_LOG_LEVEL_INFO, "Destroying old bitmap");
 		#ifdef PBL_PLATFORM_BASALT
 			gbitmap_destroy(character_bitmap);
@@ -95,11 +94,18 @@ static void pick_character() {
 	#ifdef PBL_PLATFORM_BASALT
 		character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES_COLOUR[randnum]); // Draw the colour version of the character
 		pickedchar = true;
+	
+		GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the new character bitmap
 	#elif PBL_PLATFORM_APLITE
 		character_bitmap_b = gbitmap_create_with_resource(CHARACTER_IMAGES_BLACK[randnum]); // Draw the black image of the character
 		character_bitmap_w = gbitmap_create_with_resource(CHARACTER_IMAGES_WHITE[randnum]); // Draw the white image of the character
 		pickedchar = true;
+	
+		GRect character = gbitmap_get_bounds(character_bitmap_b); // Get the size of the new character bitmap
 	#endif
+	
+	layer_set_frame(character_layer, GRect((144 / 2) - (character.size.w / 2), 69 - character.size.h, character.size.w, character.size.h));
+	layer_mark_dirty(character_layer);
 }
 
 static void bluetooth_handler(bool connected) {
@@ -166,17 +172,10 @@ static void main_window_load(Window *window) {
 	background_layer = layer_create(GRect(0, 0, 144, 168));
 	layer_set_update_proc(background_layer, draw_background);
 	
-	// Draw character
-	pick_character();
-	#ifdef PBL_PLATFORM_BASALT
-		GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the colour character image
-	#elif PBL_PLATFORM_APLITE
-		GRect character = gbitmap_get_bounds(character_bitmap_b); // Get the size of the bw character image
-	#endif
-	
-	character_layer = layer_create(GRect((144 / 2) - (character.size.w / 2), 3, character.size.w, character.size.h)); // Position the character down 3px and in the middle of the screen
-	// (bounds.size.w / 2) - (character.size.w / 2), 69 - character.size.h, 70, 66
+	// Create character layer
+	character_layer = layer_create(GRect(0, 0, 144, 168)); // In the top corner & fullscreen - we set this to the size of the bitmap later
 	layer_set_update_proc(character_layer, draw_character); // Set the update function for the character image
+	pick_character(); // Picks a character and sets the size of character_layer
 	
 	// Draw HP bar
 	hpbar_layer = layer_create(GRect(85, 117, 15, 15)); // Set the size of the hp bar
@@ -236,11 +235,13 @@ static void main_window_load(Window *window) {
 }
 
 static void main_window_unload(Window *window) {
+	// Destroy the text layers
 	text_layer_destroy(time_layer);
 	text_layer_destroy(date_layer);
 	text_layer_destroy(hp_layer);
 	text_layer_destroy(love_layer);
 	
+	// Destroy the correct bitmap, depending on platform
 	gbitmap_destroy(background_bitmap);
 	#ifdef PBL_PLATFORM_BASALT
 		gbitmap_destroy(character_bitmap);
@@ -249,9 +250,11 @@ static void main_window_unload(Window *window) {
 		gbitmap_destroy(character_bitmap_w);
 	#endif
 	
+	// Destroy other layers
 	layer_destroy(background_layer);
 	layer_destroy(character_layer);
 	
+	// Destroy fonts
 	fonts_unload_custom_font(time_font);
 	fonts_unload_custom_font(date_font);
 }
@@ -262,12 +265,10 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 	if (testing == true) {
 			APP_LOG(APP_LOG_LEVEL_INFO, "Testing mode - updating character");
 			pick_character();
-			layer_mark_dirty(character_layer);
 	} else {
 		if (tick_time->tm_min % 60 == 0) { // Pick a new character every hour
 			APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character");
 			pick_character();
-			layer_mark_dirty(character_layer);
 		}
 	}
 	
