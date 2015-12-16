@@ -1,58 +1,34 @@
 #include <pebble.h>
 
+#define KEY_TEMPERATURE 0
+#define KEY_TEMPERATURE_IN_C 1
+#define KEY_USE_CELSIUS 2
+
 static Window *main_window;
 static Layer *background_layer, *character_layer, *hpbar_layer;
 static TextLayer *time_layer, *love_layer, *hp_layer, *date_layer;
 static GBitmap *background_bitmap; 
-#ifdef PBL_PLATFORM_BASALT
-	static GBitmap *character_bitmap; 
-#elif PBL_PLATFORM_APLITE
-	static GBitmap *character_bitmap_b, *character_bitmap_w;
-#endif
+static GBitmap *character_bitmap; 
 static GFont time_font, date_font;
+static bool use_celsius = 0;
 
 int randnum; // Random number to pick character with
 int totchars = 8; // Total number of characters
 
 static bool testing = true;
+
 bool pickedchar = false;
 
-#ifdef PBL_PLATFORM_BASALT // Colour character images (not really colour, just antialiased)
-	const int CHARACTER_IMAGES_COLOUR[] = {
-		RESOURCE_ID_IMAGE_SANS,				// 0
-		RESOURCE_ID_IMAGE_PAPYRUS,		// 1
-		RESOURCE_ID_IMAGE_MTT,				// 2
-		RESOURCE_ID_IMAGE_TORIEL,			// 3
-		RESOURCE_ID_IMAGE_UNDYNE,			// 4
-		RESOURCE_ID_IMAGE_ALPHYS,			// 5
-		RESOURCE_ID_IMAGE_NAPSTA,			// 6
-		RESOURCE_ID_IMAGE_TEM					// 7
-	};
-#endif
-
-#ifdef PBL_PLATFORM_APLITE // Black and white character images
-	const int CHARACTER_IMAGES_WHITE[] = {
-		RESOURCE_ID_IMAGE_SANS_BW_WHITE,			// 0
-		RESOURCE_ID_IMAGE_PAPYRUS_BW_WHITE,		// 1
-		RESOURCE_ID_IMAGE_MTT_BW_WHITE,				// 2
-		RESOURCE_ID_IMAGE_TORIEL_BW_WHITE,		// 3
-		RESOURCE_ID_IMAGE_UNDYNE_BW_WHITE,		// 4
-		RESOURCE_ID_IMAGE_ALPHYS_BW_WHITE,		// 5
-		RESOURCE_ID_IMAGE_NAPSTA_BW_WHITE,		// 6
-		RESOURCE_ID_IMAGE_TEM_BW_WHITE				// 7
-	};
-
-	const int CHARACTER_IMAGES_BLACK[] = {
-		RESOURCE_ID_IMAGE_SANS_BW_BLACK,			// 0
-		RESOURCE_ID_IMAGE_PAPYRUS_BW_BLACK,		// 1
-		RESOURCE_ID_IMAGE_MTT_BW_BLACK,				// 2
-		RESOURCE_ID_IMAGE_TORIEL_BW_BLACK,		// 3
-		RESOURCE_ID_IMAGE_UNDYNE_BW_BLACK,		// 4
-		RESOURCE_ID_IMAGE_ALPHYS_BW_BLACK,		// 5
-		RESOURCE_ID_IMAGE_NAPSTA_BW_BLACK,		// 6
-		RESOURCE_ID_IMAGE_TEM_BW_BLACK				// 7
-	};
-#endif
+const int CHARACTER_IMAGES[] = {
+	RESOURCE_ID_IMAGE_ALPHYS,
+	RESOURCE_ID_IMAGE_MTT,
+	RESOURCE_ID_IMAGE_NAPSTA,
+	RESOURCE_ID_IMAGE_PAPYRUS,
+	RESOURCE_ID_IMAGE_SANS,
+	RESOURCE_ID_IMAGE_TEM,
+	RESOURCE_ID_IMAGE_TORIEL,
+	RESOURCE_ID_IMAGE_UNDYNE
+};
 
 static void update_time() {
 	time_t temp = time(NULL);
@@ -83,26 +59,13 @@ static void pick_character() {
 	
 	if (pickedchar == true) { // If there is an old bitmap we destroy it to free memory
 		APP_LOG(APP_LOG_LEVEL_INFO, "Destroying old bitmap");
-		#ifdef PBL_PLATFORM_BASALT
-			gbitmap_destroy(character_bitmap);
-		#elif PBL_PLATFORM_APLITE
-			gbitmap_destroy(character_bitmap_b);
-			gbitmap_destroy(character_bitmap_w);
-		#endif
+		gbitmap_destroy(character_bitmap);
 	}
 	
-	#ifdef PBL_PLATFORM_BASALT
-		character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES_COLOUR[randnum]); // Draw the colour version of the character
-		pickedchar = true;
-	
-		GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the new character bitmap
-	#elif PBL_PLATFORM_APLITE
-		character_bitmap_b = gbitmap_create_with_resource(CHARACTER_IMAGES_BLACK[randnum]); // Draw the black image of the character
-		character_bitmap_w = gbitmap_create_with_resource(CHARACTER_IMAGES_WHITE[randnum]); // Draw the white image of the character
-		pickedchar = true;
-	
-		GRect character = gbitmap_get_bounds(character_bitmap_b); // Get the size of the new character bitmap
-	#endif
+	character_bitmap = gbitmap_create_with_resource(CHARACTER_IMAGES[randnum]); // Draw the colour version of the character
+	pickedchar = true;
+
+	GRect character = gbitmap_get_bounds(character_bitmap); // Get the size of the new character bitmap
 	
 	layer_set_frame(character_layer, GRect((144 / 2) - (character.size.w / 2), 69 - character.size.h, character.size.w, character.size.h));
 	layer_mark_dirty(character_layer);
@@ -114,25 +77,12 @@ static void bluetooth_handler(bool connected) {
 }
 
 static void draw_background(Layer *layer, GContext *ctx) {
-	#ifdef PBL_PLATFORM_BASALT
-		graphics_context_set_compositing_mode(ctx, GCompOpSet);
 		graphics_draw_bitmap_in_rect(ctx, background_bitmap, gbitmap_get_bounds(background_bitmap));
-	#elif PBL_PLATFORM_APLITE
-		graphics_draw_bitmap_in_rect(ctx, background_bitmap, gbitmap_get_bounds(background_bitmap));
-	#endif
 }
 
 static void draw_character(Layer *layer, GContext *ctx) {
-	#ifdef PBL_PLATFORM_BASALT
-		graphics_context_set_compositing_mode(ctx, GCompOpSet);	
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap, layer_get_bounds(character_layer));
-	#elif PBL_PLATFORM_APLITE
-		graphics_context_set_compositing_mode(ctx, GCompOpOr);
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap_w, layer_get_bounds(character_layer));
-	
-		graphics_context_set_compositing_mode(ctx, GCompOpClear);
-		graphics_draw_bitmap_in_rect(ctx, character_bitmap_b, layer_get_bounds(character_layer));
-	#endif
+	graphics_context_set_compositing_mode(ctx, GCompOpSet);	
+	graphics_draw_bitmap_in_rect(ctx, character_bitmap, layer_get_bounds(character_layer));
 }
 
 static void draw_hpbar(Layer *layer, GContext *ctx) {
@@ -140,7 +90,7 @@ static void draw_hpbar(Layer *layer, GContext *ctx) {
 	
 	bool connected = bluetooth_connection_service_peek(); // Are we connected to the phone?
 		
-	#ifdef PBL_PLATFORM_BASALT
+	#ifdef PBL_COLOR
 		if (!connected) { // If disconnected
 			graphics_context_set_fill_color(ctx, GColorRed); // Pick red as fill colour
 		} else {
@@ -148,7 +98,7 @@ static void draw_hpbar(Layer *layer, GContext *ctx) {
 		}
 
 		graphics_fill_rect(ctx, layer_get_bounds(hpbar_layer), 0, GCornerNone); // Draw the box
-	#elif PBL_PLATFORM_APLITE
+	#elif PBL_BW
 		graphics_context_set_fill_color(ctx, GColorWhite);
 		graphics_context_set_stroke_color(ctx, GColorWhite);
 		if (!connected) { // If disconnected
@@ -159,16 +109,45 @@ static void draw_hpbar(Layer *layer, GContext *ctx) {
 	#endif
 }
 
+static void inbox_received_handler(DictionaryIterator *iter, void *context) {
+	static char temp_buffer[7];
+	static char temp_c_buffer[7];
+	
+	Tuple *celsius_t = dict_find(iter, KEY_USE_CELSIUS);
+	Tuple *temp_t = dict_find(iter, KEY_TEMPERATURE);
+	Tuple *tempc_t = dict_find(iter, KEY_TEMPERATURE_IN_C);
+	
+	if (celsius_t) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "KEY_USE_CELSIUS_RECEIVED: %d", celsius_t->value->int8);
+		use_celsius = celsius_t->value->int8;
+		persist_write_int(KEY_USE_CELSIUS, use_celsius);
+	}
+	
+	if (temp_t) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "KEY_TEMPERATURE received");
+		snprintf(temp_buffer, sizeof(temp_buffer), "LV %d", (int)temp_t->value->int32);
+	}
+	
+	if (tempc_t) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "KEY_TEMPERATURE_IN_C received");
+		snprintf(temp_c_buffer, sizeof(temp_c_buffer), "LV %d", (int)tempc_t->value->int32);
+	}
+	
+	if (use_celsius == 1) {
+		APP_LOG(APP_LOG_LEVEL_INFO, "Setting Celsius text");
+		text_layer_set_text(love_layer, temp_c_buffer);
+	} else {
+		APP_LOG(APP_LOG_LEVEL_INFO, "Setting Fahrenheit text");
+		text_layer_set_text(love_layer, temp_buffer);
+	}
+}
+
 static void main_window_load(Window *window) {
 	// Get window size
 	GRect bounds = layer_get_bounds(window_get_root_layer(window));
 	
 	// Draw battle background
-	#ifdef PBL_PLATFORM_BASALT
-		background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTLE);
-	#elif PBL_PLATFORM_APLITE
-		background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTLE_BW);
-	#endif
+	background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
 	background_layer = layer_create(GRect(0, 0, 144, 168));
 	layer_set_update_proc(background_layer, draw_background);
 	
@@ -232,6 +211,10 @@ static void main_window_load(Window *window) {
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(love_layer));
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(time_layer));
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(date_layer));
+	
+	if (persist_exists(KEY_USE_CELSIUS)) {
+		use_celsius = persist_read_int(KEY_USE_CELSIUS);
+	}
 }
 
 static void main_window_unload(Window *window) {
@@ -243,12 +226,7 @@ static void main_window_unload(Window *window) {
 	
 	// Destroy the correct bitmap, depending on platform
 	gbitmap_destroy(background_bitmap);
-	#ifdef PBL_PLATFORM_BASALT
-		gbitmap_destroy(character_bitmap);
-	#elif PBL_PLATFORM_APLITE
-		gbitmap_destroy(character_bitmap_b);
-		gbitmap_destroy(character_bitmap_w);
-	#endif
+	gbitmap_destroy(character_bitmap);
 	
 	// Destroy other layers
 	layer_destroy(background_layer);
@@ -262,17 +240,27 @@ static void main_window_unload(Window *window) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 	update_time();
 	
+	if (tick_time->tm_min % 60 == 0) { // Pick a new character every hour
+			APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character and weather");
+			pick_character();		
+	}
+	
+	if (tick_time->tm_min % 30 == 0) { // Update the weather every half hour
+			// Begin dictionary
+			DictionaryIterator *iter;
+			app_message_outbox_begin(&iter);
+
+			// Add a key-value pair
+			dict_write_uint8(iter, 0, 0);
+
+			// Send the message!
+			app_message_outbox_send();
+	}
+	
 	if (testing == true) {
 			APP_LOG(APP_LOG_LEVEL_INFO, "Testing mode - updating character");
 			pick_character();
-	} else {
-		if (tick_time->tm_min % 60 == 0) { // Pick a new character every hour
-			APP_LOG(APP_LOG_LEVEL_INFO, "It's on the hour - updating character");
-			pick_character();
-		}
-	}
-	
-	
+	}	
 }
 
 
@@ -288,6 +276,9 @@ static void init() {
 	window_stack_push(main_window, true);
 	tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 	bluetooth_connection_service_subscribe(bluetooth_handler);
+	
+	app_message_register_inbox_received(inbox_received_handler);
+	app_message_open(500, 500);
 }
 
 static void deinit() {

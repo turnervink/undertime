@@ -1,5 +1,9 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "KEY_TEMPERATURE": 0,
+        "KEY_TEMPERATURE_IN_C": 1,
+        "useCelsius": 2
+    },
     "capabilities": [
         ""
     ],
@@ -9,146 +13,65 @@
     "resources": {
         "media": [
             {
+                "file": "images/undyne.png",
+                "name": "IMAGE_UNDYNE",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/toriel.png",
+                "name": "IMAGE_TORIEL",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/tem.png",
+                "name": "IMAGE_TEM",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/sans.png",
+                "name": "IMAGE_SANS",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/papyrus.png",
+                "name": "IMAGE_PAPYRUS",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/napsta.png",
+                "name": "IMAGE_NAPSTA",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/mtt.png",
+                "name": "IMAGE_MTT",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
+                "file": "images/alphys.png",
+                "name": "IMAGE_ALPHYS",
+                "targetPlatforms": null,
+                "type": "bitmap"
+            },
+            {
                 "file": "images/undertime_icon.png",
                 "menuIcon": true,
                 "name": "IMAGE_ICON",
-                "type": "png"
+                "targetPlatforms": null,
+                "type": "bitmap"
             },
             {
-                "file": "images/temmie_pebble_bw.png",
-                "name": "IMAGE_TEM_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/temmie_pebble.png",
-                "name": "IMAGE_TEM",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/napsta_pebble_bw.png",
-                "name": "IMAGE_NAPSTA_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/napsta_pebble.png",
-                "name": "IMAGE_NAPSTA",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/alphys_pebble_bw.png",
-                "name": "IMAGE_ALPHYS_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/alphys_pebble.png",
-                "name": "IMAGE_ALPHYS",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/undyne_pebble_bw.png",
-                "name": "IMAGE_UNDYNE_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/toriel_pebble_bw.png",
-                "name": "IMAGE_TORIEL_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/undyne_pebble.png",
-                "name": "IMAGE_UNDYNE",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/toriel_pebble.png",
-                "name": "IMAGE_TORIEL",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/mtt_pebble_bw.png",
-                "name": "IMAGE_MTT_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/papyrus_pebble_bw.png",
-                "name": "IMAGE_PAPYRUS_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/sans_pebble_bw.png",
-                "name": "IMAGE_SANS_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png-trans"
-            },
-            {
-                "file": "images/papyrus_pebble.png",
-                "name": "IMAGE_PAPYRUS",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/mtt_pebble.png",
-                "name": "IMAGE_MTT",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/sans_pebble.png",
-                "name": "IMAGE_SANS",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
-            },
-            {
-                "file": "images/undertime_background_new_bw.png",
-                "name": "IMAGE_BATTLE_BW",
-                "targetPlatforms": [
-                    "aplite"
-                ],
-                "type": "png"
+                "file": "images/undertime_background_new.png",
+                "name": "IMAGE_BACKGROUND",
+                "targetPlatforms": null,
+                "type": "bitmap"
             },
             {
                 "file": "fonts/8bitoperator.ttf",
@@ -159,14 +82,6 @@
                 "file": "fonts/8bitoperator.ttf",
                 "name": "FONT_BITOP_19",
                 "type": "font"
-            },
-            {
-                "file": "images/undertime_basaltbg_1.png",
-                "name": "IMAGE_BATTLE",
-                "targetPlatforms": [
-                    "basalt"
-                ],
-                "type": "png"
             }
         ]
     },
@@ -177,7 +92,7 @@
         "basalt"
     ],
     "uuid": "7c46ac59-c804-41dd-8b62-d646e7520772",
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": true
     }
