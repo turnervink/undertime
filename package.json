@@ -1,0 +1,106 @@
+{
+  "name": "Undertime",
+  "author": "Turner Vink",
+  "version": "1.1.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
+  "pebble": {
+    "displayName": "Undertime",
+    "uuid": "7c46ac59-c804-41dd-8b62-d646e7520772",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "diorite"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "KEY_TEMPERATURE",
+      "KEY_TEMPERATURE_IN_C",
+      "useCelsius"
+    ],
+    "resources": {
+      "media": [
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_UNDYNE",
+          "file": "images/undyne.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_TORIEL",
+          "file": "images/toriel.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_TEM",
+          "file": "images/tem.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_SANS",
+          "file": "images/sans.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_PAPYRUS",
+          "file": "images/papyrus.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_NAPSTA",
+          "file": "images/napsta.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_MTT",
+          "file": "images/mtt.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_ALPHYS",
+          "file": "images/alphys.png"
+        },
+        {
+          "type": "bitmap",
+          "menuIcon": true,
+          "targetPlatforms": null,
+          "name": "IMAGE_ICON",
+          "file": "images/undertime_icon.png"
+        },
+        {
+          "targetPlatforms": null,
+          "type": "bitmap",
+          "name": "IMAGE_BACKGROUND",
+          "file": "images/undertime_background_new.png"
+        },
+        {
+          "type": "font",
+          "name": "FONT_BITOP_12",
+          "file": "fonts/8bitoperator.ttf"
+        },
+        {
+          "type": "font",
+          "name": "FONT_BITOP_19",
+          "file": "fonts/8bitoperator.ttf"
+        }
+      ]
+    }
+  }
+}

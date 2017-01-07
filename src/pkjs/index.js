@@ -1,3 +1,7 @@
+var Clay = require('pebble-clay');
+var clayConfig = require('./config.json');
+var clay = new Clay(clayConfig);
+
 var xhrRequest = function (url, type, callback) {
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -75,7 +79,7 @@ Pebble.addEventListener('appmessage',
 
 // ========== CONFIGURATION ========== //
 
-Pebble.addEventListener('showConfiguration', function() {
+/*Pebble.addEventListener('showConfiguration', function() {
   var url = 'http://659196e.ngrok.com';
 
   console.log('Showing configuration page: ' + url);
@@ -96,4 +100,4 @@ Pebble.addEventListener('webviewclosed', function(e) {
 	}, function() {
 		console.log('Send failed!');
 	});
-});
+});*/
