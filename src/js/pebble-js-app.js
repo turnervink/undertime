@@ -9,26 +9,26 @@ var xhrRequest = function (url, type, callback) {
 
 function locationSuccess(pos) {
   // Construct URL
-  var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=2874bea34ea1f91820fa07af69939eea';
-  
+  var url = 'https://query.yahooapis.com/v1/public/yql?q=' + 'select item.condition.temp from weather.forecast where woeid in (select woeid from geo.places(1) where text="(' + pos.coords.latitude + ', ' + pos.coords.longitude + ')") and u="c" &format=json';
+
   console.log("Lat is " + pos.coords.latitude);
   console.log("Lon is " + pos.coords.longitude);
   console.log('URL is ' + url);
 
   // Send request to OpenWeatherMap
-  xhrRequest(url, 'GET', 
+  xhrRequest(url, 'GET',
     function(responseText) {
       console.log("Parsing JSON");
-      
+
       var json = JSON.parse(responseText); // Parse JSON response
-      console.log(JSON.parse(responseText));
-			
-			var temperature =  Math.round(((json.main.temp - 273.15) * 1.8) + 32);
+      var item = json.query.results.channel.item;
+
+			var temperature = parseInt((item.condition.temp * 1.8) + 32);
 			console.log("Temperature: " + temperature);
-			
-			var temperaturec =  Math.round(json.main.temp - 273.15);
+
+			var temperaturec =  parseInt(item.condition.temp);
 			console.log("Temperature: " + temperaturec);
-      
+
       // Assemble weather info into dictionary
       var dictionary = {
 				"KEY_TEMPERATURE": temperature,
@@ -44,7 +44,7 @@ function locationSuccess(pos) {
           console.log("Error sending weather info to Pebble!");
         }
       );
-    }      
+    }
   );
 }
 
@@ -70,7 +70,7 @@ Pebble.addEventListener('appmessage',
   function(e) {
     console.log('AppMessage received!');
 		getWeather();
-  }                
+  }
 );
 
 // ========== CONFIGURATION ========== //
